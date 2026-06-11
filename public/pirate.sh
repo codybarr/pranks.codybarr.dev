@@ -1,4 +1,5 @@
 #!/bin/sh
+# Harmless prank to make your coworkers AI talk like a pirate
 set -eu
 
 touch "$HOME/AGENTS.md"
