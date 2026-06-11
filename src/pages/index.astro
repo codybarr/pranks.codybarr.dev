@@ -1,268 +1,350 @@
 ---
+
 ---
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Cody's Pranks</title>
-    <meta
-      name="description"
-      content="Cody's Pranks — one suspiciously simple pirate script."
-    />
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #071117;
-        --bg-2: #0d1b24;
-        --bg-3: #112530;
-        --text: #f4f7f5;
-        --muted: #b7c4c7;
-        --line: rgba(255, 255, 255, 0.12);
-        --panel: rgba(7, 17, 23, 0.72);
-        --accent: #7dd3c7;
-        --accent-2: #5b8cff;
-        --accent-3: #d6a85f;
-        --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-      }
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <!-- <link rel="icon" href="/favicon.ico" /> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="generator" content={Astro.generator} />
+        <title>Cody's Pranks</title>
+        <meta
+            name="description"
+            content="Cody's Pranks — one suspiciously simple pirate script."
+        />
+        <style>
+            :root {
+                color-scheme: dark;
+                --bg: #071117;
+                --bg-2: #0d1b24;
+                --bg-3: #112530;
+                --text: #f4f7f5;
+                --muted: #b7c4c7;
+                --line: rgba(255, 255, 255, 0.12);
+                --panel: rgba(7, 17, 23, 0.72);
+                --accent: #7dd3c7;
+                --accent-2: #5b8cff;
+                --accent-3: #d6a85f;
+                --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+            }
 
-      * { box-sizing: border-box; }
+            * {
+                box-sizing: border-box;
+            }
 
-      html, body {
-        margin: 0;
-        min-height: 100%;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: var(--bg);
-        color: var(--text);
-      }
+            html,
+            body {
+                margin: 0;
+                min-height: 100%;
+                font-family:
+                    Inter,
+                    ui-sans-serif,
+                    system-ui,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    sans-serif;
+                background: var(--bg);
+                color: var(--text);
+            }
 
-      body {
-        overflow-x: hidden;
-      }
+            body {
+                overflow-x: hidden;
+            }
 
-      .page {
-        position: relative;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        padding: 32px 20px;
-        isolation: isolate;
-        background:
-          radial-gradient(circle at 20% 20%, rgba(91, 140, 255, 0.18), transparent 28%),
-          radial-gradient(circle at 80% 30%, rgba(125, 211, 199, 0.18), transparent 30%),
-          radial-gradient(circle at 50% 80%, rgba(214, 168, 95, 0.14), transparent 32%),
-          linear-gradient(180deg, var(--bg-2), var(--bg));
-      }
+            .page {
+                position: relative;
+                min-height: 100vh;
+                display: grid;
+                place-items: center;
+                padding: 32px 20px;
+                isolation: isolate;
+                background:
+                    radial-gradient(
+                        circle at 20% 20%,
+                        rgba(91, 140, 255, 0.18),
+                        transparent 28%
+                    ),
+                    radial-gradient(
+                        circle at 80% 30%,
+                        rgba(125, 211, 199, 0.18),
+                        transparent 30%
+                    ),
+                    radial-gradient(
+                        circle at 50% 80%,
+                        rgba(214, 168, 95, 0.14),
+                        transparent 32%
+                    ),
+                    linear-gradient(180deg, var(--bg-2), var(--bg));
+            }
 
-      .page::before,
-      .page::after {
-        content: "";
-        position: absolute;
-        inset: -20%;
-        z-index: -1;
-        filter: blur(60px);
-        opacity: 0.85;
-        animation: drift 18s ease-in-out infinite alternate;
-      }
+            .page::before,
+            .page::after {
+                content: "";
+                position: absolute;
+                inset: -20%;
+                z-index: -1;
+                filter: blur(60px);
+                opacity: 0.85;
+                animation: drift 18s ease-in-out infinite alternate;
+            }
 
-      .page::before {
-        background:
-          radial-gradient(circle at 30% 35%, rgba(91, 140, 255, 0.22), transparent 18%),
-          radial-gradient(circle at 70% 60%, rgba(125, 211, 199, 0.18), transparent 20%);
-      }
+            .page::before {
+                background:
+                    radial-gradient(
+                        circle at 30% 35%,
+                        rgba(91, 140, 255, 0.22),
+                        transparent 18%
+                    ),
+                    radial-gradient(
+                        circle at 70% 60%,
+                        rgba(125, 211, 199, 0.18),
+                        transparent 20%
+                    );
+            }
 
-      .page::after {
-        background:
-          radial-gradient(circle at 65% 30%, rgba(214, 168, 95, 0.14), transparent 16%),
-          radial-gradient(circle at 35% 75%, rgba(125, 211, 199, 0.12), transparent 18%);
-        animation-duration: 24s;
-      }
+            .page::after {
+                background:
+                    radial-gradient(
+                        circle at 65% 30%,
+                        rgba(214, 168, 95, 0.14),
+                        transparent 16%
+                    ),
+                    radial-gradient(
+                        circle at 35% 75%,
+                        rgba(125, 211, 199, 0.12),
+                        transparent 18%
+                    );
+                animation-duration: 24s;
+            }
 
-      @keyframes drift {
-        0% {
-          transform: translate3d(-2%, -1%, 0) scale(1);
-        }
-        100% {
-          transform: translate3d(2%, 1.5%, 0) scale(1.08);
-        }
-      }
+            @keyframes drift {
+                0% {
+                    transform: translate3d(-2%, -1%, 0) scale(1);
+                }
+                100% {
+                    transform: translate3d(2%, 1.5%, 0) scale(1.08);
+                }
+            }
 
-      main {
-        width: min(880px, 100%);
-      }
+            main {
+                width: min(880px, 100%);
+            }
 
-      .header {
-        margin-bottom: 28px;
-      }
+            .header {
+                margin-bottom: 28px;
+            }
 
-      .eyebrow {
-        margin: 0 0 12px;
-        color: var(--accent);
-        font-size: 0.95rem;
-      }
+            .eyebrow {
+                margin: 0 0 12px;
+                color: var(--accent);
+                font-size: 0.95rem;
+            }
 
-      h1 {
-        margin: 0;
-        font-size: clamp(3rem, 8vw, 5.5rem);
-        line-height: 0.96;
-        letter-spacing: 0;
-      }
+            h1 {
+                margin: 0;
+                font-size: clamp(3rem, 8vw, 5.5rem);
+                line-height: 0.96;
+                letter-spacing: 0;
+            }
 
-      .subcopy {
-        margin: 18px 0 0;
-        max-width: 38rem;
-        color: var(--muted);
-        font-size: 1.05rem;
-        line-height: 1.6;
-      }
+            .subcopy {
+                margin: 18px 0 0;
+                max-width: 38rem;
+                color: var(--muted);
+                font-size: 1.05rem;
+                line-height: 1.6;
+            }
 
-      .terminal {
-        overflow: hidden;
-        border-radius: 8px;
-        border: 1px solid var(--line);
-        background: var(--panel);
-        backdrop-filter: blur(14px);
-        box-shadow: var(--shadow);
-      }
+            .terminal {
+                overflow: hidden;
+                border-radius: 8px;
+                border: 1px solid var(--line);
+                background: var(--panel);
+                backdrop-filter: blur(14px);
+                box-shadow: var(--shadow);
+            }
 
-      .terminal-bar {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 14px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(255, 255, 255, 0.03);
-      }
+            .terminal-bar {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 16px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                background: rgba(255, 255, 255, 0.03);
+            }
 
-      .copy-button {
-        margin-left: auto;
-        width: 36px;
-        height: 36px;
-        display: inline-grid;
-        place-items: center;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.04);
-        color: var(--muted);
-        cursor: pointer;
-        transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
-      }
+            .copy-button {
+                margin-left: auto;
+                width: 36px;
+                height: 36px;
+                display: inline-grid;
+                place-items: center;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.04);
+                color: var(--muted);
+                cursor: pointer;
+                transition:
+                    background 160ms ease,
+                    border-color 160ms ease,
+                    color 160ms ease,
+                    transform 160ms ease;
+            }
 
-      .copy-button:hover {
-        background: rgba(125, 211, 199, 0.1);
-        border-color: rgba(125, 211, 199, 0.24);
-        color: var(--text);
-      }
+            .copy-button:hover {
+                background: rgba(125, 211, 199, 0.1);
+                border-color: rgba(125, 211, 199, 0.24);
+                color: var(--text);
+            }
 
-      .copy-button:active {
-        transform: translateY(1px);
-      }
+            .copy-button:active {
+                transform: translateY(1px);
+            }
 
-      .copy-button:focus-visible {
-        outline: 2px solid rgba(125, 211, 199, 0.5);
-        outline-offset: 2px;
-      }
+            .copy-button:focus-visible {
+                outline: 2px solid rgba(125, 211, 199, 0.5);
+                outline-offset: 2px;
+            }
 
-      .copy-button svg {
-        width: 16px;
-        height: 16px;
-      }
+            .copy-button svg {
+                width: 16px;
+                height: 16px;
+            }
 
-      .copy-button[data-copied='true'] {
-        color: var(--accent);
-        border-color: rgba(125, 211, 199, 0.3);
-        background: rgba(125, 211, 199, 0.12);
-      }
+            .copy-button[data-copied="true"] {
+                color: var(--accent);
+                border-color: rgba(125, 211, 199, 0.3);
+                background: rgba(125, 211, 199, 0.12);
+            }
 
-      .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-      }
+            .dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 999px;
+            }
 
-      .dot.red { background: #ff6b57; }
-      .dot.yellow { background: #f6c04d; }
-      .dot.green { background: #49c86b; }
+            .dot.red {
+                background: #ff6b57;
+            }
+            .dot.yellow {
+                background: #f6c04d;
+            }
+            .dot.green {
+                background: #49c86b;
+            }
 
-      pre {
-        margin: 0;
-        padding: 22px;
-        overflow-x: auto;
-        color: #dcfff8;
-        font-size: 1rem;
-        line-height: 1.7;
-      }
+            pre {
+                margin: 0;
+                padding: 22px;
+                overflow-x: auto;
+                color: #dcfff8;
+                font-size: 1rem;
+                line-height: 1.7;
+            }
 
-      code {
-        font-family: "SFMono-Regular", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-      }
+            code {
+                font-family:
+                    "SFMono-Regular", SFMono-Regular, Consolas,
+                    "Liberation Mono", Menlo, monospace;
+            }
 
-      @media (max-width: 640px) {
-        .page {
-          padding: 24px 16px;
-        }
+            @media (max-width: 640px) {
+                .page {
+                    padding: 24px 16px;
+                }
 
-        pre {
-          font-size: 0.94rem;
-          padding: 18px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <main>
-        <header class="header">
-          <p class="eyebrow">Harmless terminal mischief</p>
-          <h1>Cody's Pranks</h1>
-          <p class="subcopy">One tiny script. One terrible idea. One very pirate-flavored outcome.</p>
-        </header>
+                pre {
+                    font-size: 0.94rem;
+                    padding: 18px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <main>
+                <header class="header">
+                    <p class="eyebrow">Harmless terminal mischief</p>
+                    <h1>Cody's Pranks</h1>
+                    <p class="subcopy">
+                        One tiny script. One terrible idea. One very
+                        pirate-flavored outcome.
+                    </p>
+                </header>
 
-        <section class="terminal" aria-label="Code example for running pirate.sh">
-          <div class="terminal-bar">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-            <button class="copy-button" id="copy-button" type="button" aria-label="Copy command" title="Copy command">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-            </button>
-          </div>
-          <pre><code id="pirate-command">curl -fsSL https://pranks.codybarr.dev/pirate.sh | bash</code></pre>
-        </section>
-      </main>
-    </div>
-    <script>
-      const copyButton = document.getElementById('copy-button');
-      const pirateCommand = document.getElementById('pirate-command');
+                <section
+                    class="terminal"
+                    aria-label="Code example for running pirate.sh"
+                >
+                    <div class="terminal-bar">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <button
+                            class="copy-button"
+                            id="copy-button"
+                            type="button"
+                            aria-label="Copy command"
+                            title="Copy command"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                            >
+                                <rect x="9" y="9" width="13" height="13" rx="2"
+                                ></rect>
+                                <path
+                                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <pre><code id="pirate-command">curl -fsSL https://pranks.codybarr.dev/pirate.sh | bash</code></pre>
+                </section>
+            </main>
+        </div>
+        <script>
+            const copyButton = document.getElementById("copy-button");
+            const pirateCommand = document.getElementById("pirate-command");
 
-      if (copyButton && pirateCommand) {
-        copyButton.addEventListener('click', async () => {
-          try {
-            await navigator.clipboard.writeText(pirateCommand.textContent ?? '');
-            copyButton.dataset.copied = 'true';
-            copyButton.setAttribute('aria-label', 'Copied');
-            copyButton.setAttribute('title', 'Copied');
-            window.setTimeout(() => {
-              copyButton.dataset.copied = 'false';
-              copyButton.setAttribute('aria-label', 'Copy command');
-              copyButton.setAttribute('title', 'Copy command');
-            }, 1600);
-          } catch {
-            copyButton.setAttribute('aria-label', 'Copy failed');
-            copyButton.setAttribute('title', 'Copy failed');
-            window.setTimeout(() => {
-              copyButton.setAttribute('aria-label', 'Copy command');
-              copyButton.setAttribute('title', 'Copy command');
-            }, 1600);
-          }
-        });
-      }
-    </script>
-  </body>
+            if (copyButton && pirateCommand) {
+                copyButton.addEventListener("click", async () => {
+                    try {
+                        await navigator.clipboard.writeText(
+                            pirateCommand.textContent ?? "",
+                        );
+                        copyButton.dataset.copied = "true";
+                        copyButton.setAttribute("aria-label", "Copied");
+                        copyButton.setAttribute("title", "Copied");
+                        window.setTimeout(() => {
+                            copyButton.dataset.copied = "false";
+                            copyButton.setAttribute(
+                                "aria-label",
+                                "Copy command",
+                            );
+                            copyButton.setAttribute("title", "Copy command");
+                        }, 1600);
+                    } catch {
+                        copyButton.setAttribute("aria-label", "Copy failed");
+                        copyButton.setAttribute("title", "Copy failed");
+                        window.setTimeout(() => {
+                            copyButton.setAttribute(
+                                "aria-label",
+                                "Copy command",
+                            );
+                            copyButton.setAttribute("title", "Copy command");
+                        }, 1600);
+                    }
+                });
+            }
+        </script>
+    </body>
 </html>
