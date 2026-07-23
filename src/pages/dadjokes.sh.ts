@@ -6,9 +6,9 @@ touch "$HOME/dadjokes.sh"
 cat > "$HOME/dadjokes.sh" <<'EOF'
 #!/bin/bash
 
-JOKE=$(curl -s \
-  -H "Accept: application/json" \
-  https://icanhazdadjoke.com/ | \
+JOKE=$(curl -s \\
+  -H "Accept: application/json" \\
+  https://icanhazdadjoke.com/ | \\
   jq -r '.joke')
 
 osascript -e "display notification \"$JOKE\" with title \"😂 Dad Joke\""
