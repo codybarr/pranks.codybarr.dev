@@ -1,9 +1,11 @@
 ---
+import { Eye } from "@lucide/astro";
 interface Props {
   label?: string;
+  href: string;
 }
 
-const { label = "Code example" } = Astro.props;
+const { label = "Code example", href } = Astro.props;
 ---
 
 <section
@@ -17,8 +19,18 @@ const { label = "Code example" } = Astro.props;
     <span class="size-2.5 rounded-full bg-[#ff6b57]"></span>
     <span class="size-2.5 rounded-full bg-[#f6c04d]"></span>
     <span class="size-2.5 rounded-full bg-[#49c86b]"></span>
-    <button
+
+    <a
+      href={href}
       class="ml-auto inline-grid size-9 cursor-pointer place-items-center rounded-lg border border-white/12 bg-white/4 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#7dd3c7]/24 hover:bg-[#7dd3c7]/10 hover:text-[#f4f7f5] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3c7]/50 data-[copied=true]:border-[#7dd3c7]/30 data-[copied=true]:bg-[#7dd3c7]/12 data-[copied=true]:text-[#7dd3c7]"
+      type="button"
+      aria-label="View code"
+      title="View code"
+    >
+      <Eye />
+    </a>
+    <button
+      class="inline-grid size-9 cursor-pointer place-items-center rounded-lg border border-white/12 bg-white/4 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#7dd3c7]/24 hover:bg-[#7dd3c7]/10 hover:text-[#f4f7f5] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3c7]/50 data-[copied=true]:border-[#7dd3c7]/30 data-[copied=true]:bg-[#7dd3c7]/12 data-[copied=true]:text-[#7dd3c7]"
       type="button"
       aria-label="Copy code"
       title="Copy code"

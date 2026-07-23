@@ -7,7 +7,6 @@ import "../styles/global.css";
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- <link rel="icon" href="/favicon.ico" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>Cody's Pranks</title>
@@ -36,8 +35,15 @@ import "../styles/global.css";
         </header>
 
         <section class="flex flex-col gap-4">
-          <CodeSnippet label="Code example for running pirate.sh"
+          <CodeSnippet
+            label="Code example for running pirate.sh"
+            href="/pirate.sh"
             >curl -fsSL https://pranks.codybarr.dev/pirate.sh | bash</CodeSnippet
+          >
+          <CodeSnippet
+            label="Code example for running dadjokes.sh"
+            href="/dadjokes.sh"
+            >curl -fsSL https://pranks.codybarr.dev/dadjokes.sh | bash</CodeSnippet
           >
         </section>
       </main>
