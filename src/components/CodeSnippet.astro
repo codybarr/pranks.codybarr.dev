@@ -1,0 +1,80 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label = "Code example" } = Astro.props;
+---
+
+<section
+  class="w-full rounded-lg border border-white/12 bg-[#071117]/72 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-[14px]"
+  data-code-snippet
+  aria-label={label}
+>
+  <div
+    class="flex items-center gap-2 border-b border-white/8 bg-white/3 px-4 py-3.5"
+  >
+    <span class="size-2.5 rounded-full bg-[#ff6b57]"></span>
+    <span class="size-2.5 rounded-full bg-[#f6c04d]"></span>
+    <span class="size-2.5 rounded-full bg-[#49c86b]"></span>
+    <button
+      class="ml-auto inline-grid size-9 cursor-pointer place-items-center rounded-lg border border-white/12 bg-white/4 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#7dd3c7]/24 hover:bg-[#7dd3c7]/10 hover:text-[#f4f7f5] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3c7]/50 data-[copied=true]:border-[#7dd3c7]/30 data-[copied=true]:bg-[#7dd3c7]/12 data-[copied=true]:text-[#7dd3c7]"
+      type="button"
+      aria-label="Copy code"
+      title="Copy code"
+    >
+      <svg
+        class="size-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+        ></path>
+      </svg>
+    </button>
+  </div>
+  <pre
+    class="m-0 overflow-x-auto p-5.5 font-mono text-base leading-[1.7] text-[#dcfff8] max-sm:text-[0.94rem]"><code data-code-snippet-content><slot /></code></pre>
+</section>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-code-snippet]")
+    .forEach((snippet) => {
+      const button = snippet.querySelector<HTMLButtonElement>("button");
+      const code = snippet.querySelector<HTMLElement>(
+        "[data-code-snippet-content]",
+      );
+
+      if (!button || !code) return;
+
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(code.textContent ?? "");
+          button.dataset.copied = "true";
+          button.setAttribute("aria-label", "Copied");
+          button.setAttribute("title", "Copied");
+
+          window.setTimeout(() => {
+            button.dataset.copied = "false";
+            button.setAttribute("aria-label", "Copy code");
+            button.setAttribute("title", "Copy code");
+          }, 1600);
+        } catch {
+          button.setAttribute("aria-label", "Copy failed");
+          button.setAttribute("title", "Copy failed");
+
+          window.setTimeout(() => {
+            button.setAttribute("aria-label", "Copy code");
+            button.setAttribute("title", "Copy code");
+          }, 1600);
+        }
+      });
+    });
+</script>
