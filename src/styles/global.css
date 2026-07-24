@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+/* Paint the page canvas rather than only the viewport-height content wrapper. */
+.prank-page-background {
+  background-color: #0d1b24;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(91, 140, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 80% 30%, rgba(125, 211, 199, 0.18), transparent 30%),
+    radial-gradient(circle at 50% 80%, rgba(214, 168, 95, 0.14), transparent 32%),
+    linear-gradient(180deg, #0d1b24, #071117);
+  background-attachment: fixed;
+}
