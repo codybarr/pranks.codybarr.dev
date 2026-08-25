@@ -2,8 +2,29 @@ const script = `#!/bin/sh
 # Send a random dad joke notification to your coworker every 5 minutes
 set -eu
 
-touch "$HOME/dadjokes.sh"
-cat > "$HOME/dadjokes.sh" <<'EOF'
+PLIST="$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist"
+JOB="gui/$(id -u)/com.pranks.dadjokes"
+SCRIPT="$HOME/dadjokes.sh"
+
+if [ "\${1:-}" = "--uninstall" ]; then
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 [--uninstall]" >&2
+    exit 2
+  fi
+
+  launchctl bootout "$JOB" 2>/dev/null || true
+  rm -f "$PLIST" "$SCRIPT" /tmp/dadjokes.out /tmp/dadjokes.err
+  echo "Dad jokes prank uninstalled."
+  exit 0
+fi
+
+if [ "$#" -ne 0 ]; then
+  echo "Usage: $0 [--uninstall]" >&2
+  exit 2
+fi
+
+touch "$SCRIPT"
+cat > "$SCRIPT" <<'EOF'
 #!/bin/bash
 
 JOKE=$(curl -s \\
@@ -13,10 +34,11 @@ JOKE=$(curl -s \\
 
 osascript -e "display notification \"$JOKE\" with title \"😂 Dad Joke\""
 EOF
-chmod +x "$HOME/dadjokes.sh"
+chmod +x "$SCRIPT"
 
-touch "$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist"
-cat > "$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist" <<EOF
+mkdir -p "$HOME/Library/LaunchAgents"
+touch "$PLIST"
+cat > "$PLIST" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -26,7 +48,7 @@ cat > "$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist" <<EOF
 
     <key>ProgramArguments</key>
     <array>
-      <string>$HOME/dadjokes.sh</string>
+      <string>$SCRIPT</string>
     </array>
 
     <key>StartInterval</key>
@@ -43,10 +65,10 @@ cat > "$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist" <<EOF
   </dict>
 </plist>
 EOF
-plutil -lint "$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist"
+plutil -lint "$PLIST"
 # Remove a previously loaded copy so this installer can be run again.
-launchctl bootout "gui/$(id -u)/com.pranks.dadjokes" 2>/dev/null || true
-launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist"
+launchctl bootout "$JOB" 2>/dev/null || true
+launchctl bootstrap "gui/$(id -u)" "$PLIST"
 `;
 
 export const GET = () =>
