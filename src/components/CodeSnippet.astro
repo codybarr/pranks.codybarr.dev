@@ -1,11 +1,12 @@
 ---
-import { Copy, Eye } from "@lucide/astro";
+import { Check, Copy, Eye, Trash2 } from "@lucide/astro";
 interface Props {
   label?: string;
   href: string;
+  uninstallCommand: string;
 }
 
-const { label = "Code example", href } = Astro.props;
+const { label = "Code example", href, uninstallCommand } = Astro.props;
 ---
 
 <section
@@ -22,20 +23,32 @@ const { label = "Code example", href } = Astro.props;
 
     <a
       href={href}
-      class="ml-auto inline-grid p-1.5 cursor-pointer place-items-center rounded-sm border border-white/12 bg-white/4 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#7dd3c7]/24 hover:bg-[#7dd3c7]/10 hover:text-[#f4f7f5] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3c7]/50 data-[copied=true]:border-[#7dd3c7]/30 data-[copied=true]:bg-[#7dd3c7]/12 data-[copied=true]:text-[#7dd3c7]"
-      type="button"
-      aria-label="View code"
-      title="View code"
+      class="group relative ml-auto inline-grid cursor-pointer place-items-center rounded-sm border border-white/12 bg-white/4 p-1.5 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#7dd3c7]/24 hover:bg-[#7dd3c7]/10 hover:text-[#f4f7f5] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3c7]/50"
+      aria-label="View script"
     >
       <Eye class="size-5" />
+      <span class="snippet-tooltip">View script</span>
     </a>
     <button
-      class="inline-grid p-1.5 cursor-pointer place-items-center rounded-sm border border-white/12 bg-white/4 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#7dd3c7]/24 hover:bg-[#7dd3c7]/10 hover:text-[#f4f7f5] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3c7]/50 data-[copied=true]:border-[#7dd3c7]/30 data-[copied=true]:bg-[#7dd3c7]/12 data-[copied=true]:text-[#7dd3c7]"
+      class="group relative inline-grid cursor-pointer place-items-center rounded-sm border border-white/12 bg-white/4 p-1.5 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#7dd3c7]/24 hover:bg-[#7dd3c7]/10 hover:text-[#f4f7f5] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7dd3c7]/50 data-[copied=true]:border-[#7dd3c7]/30 data-[copied=true]:bg-[#7dd3c7]/12 data-[copied=true]:text-[#7dd3c7]"
       type="button"
-      aria-label="Copy code"
-      title="Copy code"
+      aria-label="Copy install command"
+      data-copy-button
     >
-      <Copy class="size-5" />
+      <Copy class="size-5 transition-all duration-200 group-data-[copied=true]:scale-50 group-data-[copied=true]:opacity-0" />
+      <Check class="absolute size-5 scale-50 opacity-0 transition-all duration-200 group-data-[copied=true]:scale-100 group-data-[copied=true]:opacity-100" />
+      <span class="snippet-tooltip" data-tooltip>Copy install command</span>
+    </button>
+    <button
+      class="group relative inline-grid cursor-pointer place-items-center rounded-sm border border-white/12 bg-white/4 p-1.5 text-[#b7c4c7] transition-[background,border-color,color,transform] duration-150 ease-in-out hover:border-[#ff6b57]/35 hover:bg-[#ff6b57]/10 hover:text-[#ffb5aa] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff6b57]/50 data-[copied=true]:border-[#7dd3c7]/30 data-[copied=true]:bg-[#7dd3c7]/12 data-[copied=true]:text-[#7dd3c7]"
+      type="button"
+      aria-label="Copy uninstall command"
+      data-copy-button
+      data-copy-value={uninstallCommand}
+    >
+      <Trash2 class="size-5 transition-all duration-200 group-data-[copied=true]:scale-50 group-data-[copied=true]:opacity-0" />
+      <Check class="absolute size-5 scale-50 opacity-0 transition-all duration-200 group-data-[copied=true]:scale-100 group-data-[copied=true]:opacity-100" />
+      <span class="snippet-tooltip" data-tooltip>Copy uninstall command</span>
     </button>
   </div>
   <pre
@@ -46,34 +59,42 @@ const { label = "Code example", href } = Astro.props;
   document
     .querySelectorAll<HTMLElement>("[data-code-snippet]")
     .forEach((snippet) => {
-      const button = snippet.querySelector<HTMLButtonElement>("button");
       const code = snippet.querySelector<HTMLElement>(
         "[data-code-snippet-content]",
       );
 
-      if (!button || !code) return;
+      if (!code) return;
 
-      button.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(code.textContent ?? "");
-          button.dataset.copied = "true";
-          button.setAttribute("aria-label", "Copied");
-          button.setAttribute("title", "Copied");
+      snippet
+        .querySelectorAll<HTMLButtonElement>("[data-copy-button]")
+        .forEach((button) => {
+          const defaultLabel = button.getAttribute("aria-label") ?? "Copy command";
+          const tooltip = button.querySelector<HTMLElement>("[data-tooltip]");
 
-          window.setTimeout(() => {
-            button.dataset.copied = "false";
-            button.setAttribute("aria-label", "Copy code");
-            button.setAttribute("title", "Copy code");
-          }, 1600);
-        } catch {
-          button.setAttribute("aria-label", "Copy failed");
-          button.setAttribute("title", "Copy failed");
+          button.addEventListener("click", async () => {
+            try {
+              await navigator.clipboard.writeText(
+                button.dataset.copyValue ?? code.textContent ?? "",
+              );
+              button.dataset.copied = "true";
+              button.setAttribute("aria-label", "Copied");
+              if (tooltip) tooltip.textContent = "Copied";
 
-          window.setTimeout(() => {
-            button.setAttribute("aria-label", "Copy code");
-            button.setAttribute("title", "Copy code");
-          }, 1600);
-        }
-      });
+              window.setTimeout(() => {
+                button.dataset.copied = "false";
+                button.setAttribute("aria-label", defaultLabel);
+                if (tooltip) tooltip.textContent = defaultLabel;
+              }, 1600);
+            } catch {
+              button.setAttribute("aria-label", "Copy failed");
+              if (tooltip) tooltip.textContent = "Copy failed";
+
+              window.setTimeout(() => {
+                button.setAttribute("aria-label", defaultLabel);
+                if (tooltip) tooltip.textContent = defaultLabel;
+              }, 1600);
+            }
+          });
+        });
     });
 </script>

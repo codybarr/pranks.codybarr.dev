@@ -10,3 +10,29 @@
     linear-gradient(180deg, #0d1b24, #071117);
   background-attachment: fixed;
 }
+
+.snippet-tooltip {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  width: max-content;
+  max-width: 13rem;
+  pointer-events: none;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 0.25rem;
+  background: #071117;
+  padding: 0.35rem 0.5rem;
+  color: #f4f7f5;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateY(-0.2rem);
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.group:hover .snippet-tooltip,
+.group:focus-visible .snippet-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
