@@ -1,4 +1,4 @@
-const script = `#!/bin/sh
+#!/bin/sh
 # Send a random dad joke notification to your coworker every 5 minutes
 set -eu
 
@@ -6,7 +6,7 @@ PLIST="$HOME/Library/LaunchAgents/com.pranks.dadjokes.plist"
 JOB="gui/$(id -u)/com.pranks.dadjokes"
 SCRIPT="$HOME/dadjokes.sh"
 
-if [ "\${1:-}" = "--uninstall" ]; then
+if [ "${1:-}" = "--uninstall" ]; then
   if [ "$#" -ne 1 ]; then
     echo "Usage: $0 [--uninstall]" >&2
     exit 2
@@ -27,9 +27,9 @@ touch "$SCRIPT"
 cat > "$SCRIPT" <<'EOF'
 #!/bin/bash
 
-JOKE=$(curl -s \\
-  -H "Accept: application/json" \\
-  https://icanhazdadjoke.com/ | \\
+JOKE=$(curl -s \
+  -H "Accept: application/json" \
+  https://icanhazdadjoke.com/ | \
   jq -r '.joke')
 
 osascript -e "display notification \"$JOKE\" with title \"😂 Dad Joke\""
@@ -69,12 +69,3 @@ plutil -lint "$PLIST"
 # Remove a previously loaded copy so this installer can be run again.
 launchctl bootout "$JOB" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$PLIST"
-`;
-
-export const GET = () =>
-  new Response(script, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Content-Disposition": 'inline; filename="dadjokes.sh"',
-    },
-  });
