@@ -2,6 +2,7 @@
   "name": "pranks-codybarr-dev",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@12.6.0",
   "engines": {
     "node": ">=22.12.0"
   },

@@ -25,6 +25,12 @@ There's nothing special about `src/components/`, but that's where we like to put
 
 Any static assets, like images, can be placed in the `public/` directory.
 
+## Package manager and deployment
+
+This project uses pnpm 12.6.0 (pinned in `package.json`). Run `corepack enable` to use that version locally.
+
+For Cloudflare Workers Builds, set the build variable `PNPM_VERSION` to `12.6.0` under **Settings → Build → Build Variables and Secrets**. Cloudflare's default pnpm version is 10.11.1; the `packageManager` pin alone does not configure the build image.
+
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
